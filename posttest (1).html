@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>الاختبار البعدي — تصميم خطط التعلم الفردية (T17)</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
+    background: #F7F1E3;
+    margin: 0;
+    padding: 24px 16px;
+    color: #2C2C2A;
+    line-height: 1.7;
+  }
+  .card {
+    max-width: 640px;
+    margin: 0 auto;
+    background: #FFFFFF;
+    border: 1px solid #E3D9C0;
+    border-radius: 12px;
+    padding: 28px 24px;
+  }
+  .header { text-align: center; margin-bottom: 24px; }
+  .icon-circle {
+    width: 56px; height: 56px; border-radius: 50%;
+    background: #7F612B; color: #FFFFFF;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 12px; font-size: 26px;
+  }
+  h1 { font-size: 19px; font-weight: 700; color: #5E4A22; margin: 0 0 4px; }
+  .subtitle { font-size: 13px; color: #8C6D2F; margin: 0; }
+  .meta { font-size: 12px; color: #777; margin-top: 6px; }
+  .progress-wrap { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; }
+  .progress-bar { flex: 1; height: 6px; background: #F0EAD8; border-radius: 4px; overflow: hidden; }
+  .progress-fill { height: 100%; background: #7F612B; border-radius: 4px; transition: width .25s; }
+  .progress-label { font-size: 12px; color: #777; white-space: nowrap; }
+  .stem { font-size: 16px; font-weight: 600; margin: 0 0 16px; }
+  .opt {
+    display: block; width: 100%; text-align: right; padding: 12px 14px;
+    margin-bottom: 8px; border: 1px solid #E3D9C0; border-radius: 8px;
+    background: #FFFDF8; font-size: 14.5px; cursor: pointer; font-family: inherit;
+    color: #2C2C2A; transition: all .15s;
+  }
+  .opt:hover:not(:disabled) { border-color: #B8A06A; background: #FBF6EA; }
+  .opt:disabled { cursor: default; }
+  .opt.correct { border-color: #639922; background: #EAF3DE; color: #27500A; }
+  .opt.wrong { border-color: #E24B4A; background: #FCEBEB; color: #791F1F; }
+  .feedback { font-size: 14px; margin: 14px 0 0; min-height: 20px; font-weight: 600; }
+  .feedback.ok { color: #3B6D11; }
+  .feedback.bad { color: #A32D2D; }
+  .actions { text-align: left; margin-top: 18px; }
+  button.primary {
+    background: #7F612B; color: #FFFFFF; border: none; border-radius: 8px;
+    padding: 10px 22px; font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit;
+  }
+  button.primary:hover { background: #6B5122; }
+  button.secondary {
+    background: #FFFFFF; color: #7F612B; border: 1px solid #7F612B; border-radius: 8px;
+    padding: 10px 22px; font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit; margin-left: 8px;
+  }
+  .result { text-align: center; padding: 12px 0; }
+  .result .score { font-size: 40px; font-weight: 700; color: #5E4A22; margin: 8px 0 4px; }
+  .result .pct { font-size: 15px; color: #666; margin-bottom: 8px; }
+  .result .verdict { font-size: 14px; font-weight: 600; margin-bottom: 20px; }
+  .verdict.pass { color: #3B6D11; }
+  .verdict.fail { color: #A32D2D; }
+  .start-wrap { text-align: center; }
+  .start-wrap p { font-size: 14px; color: #555; margin-bottom: 22px; }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="header">
+    <div class="icon-circle">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+    </div>
+    <h1>الاختبار البعدي</h1>
+    <p class="subtitle">تصميم خطط التعلم الفردية وتطبيقها — T17</p>
+    <p class="meta">10 أسئلة — 10 دقائق — معيار النجاح: 80% فأعلى</p>
+  </div>
+  <div id="app"></div>
+</div>
+<script>
+const Q = [
+["وثيقة رسمية موثقة لحالة لديها فجوة تعلم، تُطبَّق عبر تدخل مكثف محدد المدة — تندرج تحت أي من المفاهيم التالية؟",
+["التعليم المتمايز.","الخطة العلاجية.","خطة الإثراء.","لا تنطبق على أي من المفاهيم الأربعة المعتمدة."],1],
+["طالبة تتأخر ملحوظًا في القراءة الجهرية مقارنة بزميلاتها، لكن فهمها الشفهي للقصص ممتاز جدًا. ما فئة الاحتياج الأنسب؟",
+["إثرائي، لأن فهمها الشفهي مرتفع.","تكييف صفي فقط، بمنحها نصوصًا أسهل دون تدخل إضافي.","علاجي، تستهدف فجوة الطلاقة القرائية تحديدًا رغم قوة الفهم الشفهي.","لا يوجد احتياج حقيقي لأن فهمها الشفهي جيد."],2],
+["أي الأهداف التالية الأكثر اكتمالًا فعليًا وفق معايير SMART؟",
+["ستتحسن مهارات الطالب الكتابية بشكل عام.","يكتب الطالب فقرة من 5 جمل مترابطة بأقل من 3 أخطاء إملائية خلال 4 أسابيع.","سيصبح الطالب كاتبًا ماهرًا كباقي زملائه.","سيبذل الطالب جهدًا أكبر في حصص الكتابة."],1],
+["أي مما يلي يمثل ممارسة سليمة عند تحديد احتياج الحالة؟",
+["الاكتفاء برأي المعلم الشخصي دون توثيق شواهد.","الاستناد إلى تقييم تكويني واحد فقط لأنه كافٍ عادة.","جمع شواهد متعددة (تقييم تكويني، ملاحظة صفية، تواصل أسري) قبل اتخاذ القرار.","نسخ نفس الخطة المستخدمة مع حالة أخرى لمجرد أنها في الصف نفسه."],2],
+["طالب يشارك بثقة في المناقشات الشفهية ويشرح الأفكار جيدًا، لكنه يترك أوراق الاختبارات الكتابية فارغة رغم فهمه للمحتوى. أي تدخل أولي أنسب؟",
+["زيادة عدد التمارين الكتابية المطلوبة منه لتقوية الكتابة.","خطوات كتابة صغيرة متدرجة مع نمذجة موجّهة، لأن التحدي في تنظيم الكتابة لا في فهم المحتوى.","الاكتفاء بتقييمه شفهيًا دون أي مهام كتابية مستقبلًا.","خفض مستوى صعوبة الأسئلة الكتابية المطلوبة منه."],1],
+["أي المؤشرين التاليين أكثر صلاحية لمتابعة تقدم طالب في الكتابة؟",
+["يظهر الطالب تحسنًا واضحًا في جودة كتابته بمرور الوقت.","يكتب الطالب فقرة من 40 كلمة بحد أقصى خطأين إملائيين، مقارنة بـ6 أخطاء في خط الأساس.","يبدو الطالب أكثر تحمسًا للكتابة في الحصص الأخيرة.","تحسّن أداء الطالب الكتابي حسب انطباع المعلم العام."],1],
+["أي الصياغتين التاليتين أنسب لرسالة تواصل داعمة مع أسرة طالب يواجه تحديًا؟",
+["نلاحظ أن ابنكم متأخر عن زملائه بشكل ملحوظ ويحتاج تدخلًا عاجلًا.","نعمل حاليًا مع ابنكم على تعزيز مهارة محددة، ونثمّن أي دعم إضافي من جانبكم في المنزل.","المسؤولية الأساسية تقع على الأسرة لمتابعة الواجبات بانتظام.","لا داعي لإشراك الأسرة في هذه المرحلة من الخطة."],1],
+["معلم اختار استراتيجية «التعلم بالأقران» لطالب يعاني فجوة في الطلاقة القرائية، دون تحديد كيف ستستهدف الفجوة تحديدًا. ما العيب الأساسي في هذا الاختيار؟",
+["التعلم بالأقران استراتيجية غير معتمدة إطلاقًا في التعليم الدامج.","الاستراتيجية مناسبة لفئة الاحتياج عمومًا لكن دون تخصيص واضح لطبيعة الفجوة المحددة.","التعلم بالأقران يُستخدم فقط في المرحلة الثانوية.","لا يوجد عيب؛ الاستراتيجية مثالية كما هي."],1],
+["أي مما يلي يجعل خطة الدعم الفردية غير واقعية عمليًا؟",
+["تحديد جدول زمني واضح للمراجعة كل أسبوعين.","الاعتماد على أداة أو برنامج غير متوفر أصلًا في المدرسة لتنفيذ التدخل.","تحديد خطوات تنفيذ واضحة قابلة للبدء من الغد.","إشراك ولي الأمر عند الحاجة."],1],
+["معلمة استخدمت أداة ذكاء اصطناعي لاقتراح استراتيجية لطالبتها، ثم اعتمدت الاقتراح دون مراجعته أو التحقق من ملاءمته لحالة الطالبة الفعلية. ما الخطأ في هذا الإجراء؟",
+["لا يوجد خطأ؛ استخدام الذكاء الاصطناعي يُغني عن مراجعة المعلم.","القرار التربوي النهائي يجب أن يبقى للمعلم بعد مراجعة كل مخرج ذكاء اصطناعي والتحقق من ملاءمته.","الخطأ الوحيد هو استخدام أداة ذكاء اصطناعي مجانية بدل مدفوعة.","يجب استخدام الذكاء الاصطناعي فقط لاختيار الأهداف لا الاستراتيجيات."],1]
+];
+let qi = 0, score = 0, answered = false;
+const app = document.getElementById('app');
+const letters = ['أ', 'ب', 'ج', 'د'];
+
+function render() {
+  if (qi === -1) { renderStart(); return; }
+  if (qi >= Q.length) { renderResult(); return; }
+  renderQuestion();
+}
+function renderStart() {
+  app.innerHTML = `
+    <div class="start-wrap">
+      <p>اضغط "ابدأ" عندما تكون جاهزًا. معيار النجاح 80% فأعلى (8 إجابات صحيحة على الأقل).</p>
+      <button class="primary" id="startBtn">ابدأ الاختبار</button>
+    </div>`;
+  document.getElementById('startBtn').onclick = () => { qi = 0; render(); };
+}
+function renderQuestion() {
+  answered = false;
+  const [stem, opts, correct] = Q[qi];
+  const pct = Math.round((qi / Q.length) * 100);
+  app.innerHTML = `
+    <div class="progress-wrap">
+      <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
+      <span class="progress-label">${qi + 1} / ${Q.length}</span>
+    </div>
+    <p class="stem">${stem}</p>
+    <div id="opts"></div>
+    <p class="feedback" id="feedback"></p>
+    <div class="actions"><button class="primary" id="nextBtn" style="display:none;">${qi + 1 < Q.length ? 'السؤال التالي' : 'عرض النتيجة'}</button></div>`;
+  const optsDiv = document.getElementById('opts');
+  opts.forEach((opt, i) => {
+    const b = document.createElement('button');
+    b.className = 'opt';
+    b.innerHTML = `<b>${letters[i]})</b> ${opt}`;
+    b.onclick = () => selectAnswer(i, correct);
+    optsDiv.appendChild(b);
+  });
+}
+function selectAnswer(i, correct) {
+  if (answered) return;
+  answered = true;
+  const buttons = document.querySelectorAll('#opts .opt');
+  buttons.forEach((b, idx) => {
+    b.disabled = true;
+    if (idx === correct) b.classList.add('correct');
+    else if (idx === i) b.classList.add('wrong');
+  });
+  const fb = document.getElementById('feedback');
+  if (i === correct) { score++; fb.className = 'feedback ok'; fb.textContent = 'إجابة صحيحة.'; }
+  else { fb.className = 'feedback bad'; fb.textContent = 'إجابة غير دقيقة — الإجابة الصحيحة موضحة أعلاه.'; }
+  const nextBtn = document.getElementById('nextBtn');
+  nextBtn.style.display = 'inline-block';
+  nextBtn.onclick = () => { qi++; render(); };
+}
+function renderResult() {
+  const pct = Math.round((score / Q.length) * 100);
+  const pass = pct >= 80;
+  app.innerHTML = `
+    <div class="result">
+      <p style="font-size:13px;color:#8C6D2F;margin:0;">نتيجتك في الاختبار البعدي</p>
+      <p class="score">${score} / ${Q.length}</p>
+      <p class="pct">${pct}%</p>
+      <p class="verdict ${pass ? 'pass' : 'fail'}">${pass ? 'تحقق معيار النجاح (80% فأعلى)' : 'دون معيار النجاح (80%) — يُنصح بمراجعة المحتوى'}</p>
+      <button class="secondary" id="retry">إعادة المحاولة</button>
+    </div>`;
+  document.getElementById('retry').onclick = () => { qi = -1; score = 0; render(); };
+}
+qi = -1;
+render();
+</script>
+</body>
+</html>
